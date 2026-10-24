@@ -1,0 +1,76 @@
+package com.example.smartpantrymanager;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
+    private final ArrayList<JSONObject> recipes;
+
+    public RecipeAdapter(ArrayList<JSONObject> recipes) {
+        this.recipes = recipes;
+    }
+
+    @NonNull
+    @Override
+    public RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_recipe, parent, false);
+
+        return new RecipeViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
+        JSONObject recipe = recipes.get(position);
+        holder.recipeName.setText(recipe.optString("name", "Untitled recipe"));
+
+        try {
+            JSONArray ingredients = new JSONArray(
+                    recipe.optString("ingredients_json", "[]"));
+
+            StringBuilder ingredientNames = new StringBuilder();
+
+            for (int i = 0; i < ingredients.length(); i++) {
+                JSONObject ingredient = ingredients.getJSONObject(i);
+
+                if (ingredientNames.length() > 0) {
+                    ingredientNames.append(", ");
+                }
+                ingredientNames.append(ingredient.optString("name", "ingredient"));
+            }
+
+            holder.recipeIngredients.setText(
+                    "Ingredients: " + ingredientNames);
+        }
+        catch (Exception e) {
+            holder.recipeIngredients.setText("Ingredients unavailable");
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return recipes.size();
+    }
+
+    public static class RecipeViewHolder extends RecyclerView.ViewHolder {
+        TextView recipeName;
+        TextView recipeIngredients;
+
+        public RecipeViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            recipeName = itemView.findViewById(R.id.textRecipeName);
+            recipeIngredients = itemView.findViewById(R.id.textRecipeIngredients);
+        }
+    }
+}

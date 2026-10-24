@@ -1,4 +1,3 @@
-
 package com.example.smartpantrymanager;
 
 import android.content.ContentValues;
@@ -170,9 +169,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // add a pantry item
-    public long addPantryItem(
-            String name, double quantity, String unit, String expiry) {
-
+    public long addPantryItem(String name, double quantity, String unit, String expiry) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("name", name.trim());
