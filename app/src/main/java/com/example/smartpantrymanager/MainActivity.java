@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button addIngredientButton = findViewById(R.id.buttonAddIngredient);
         Button suggestedRecipesButton = findViewById(R.id.buttonSuggestedRecipes);
+        ImageButton settingsButton = findViewById(R.id.buttonSettings);
 
         // create the database helper and open the local database
         databaseHelper = new DatabaseHelper(this);
@@ -68,6 +70,13 @@ public class MainActivity extends AppCompatActivity {
         suggestedRecipesButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this,
                     SuggestedRecipesActivity.class);
+            startActivity(intent);
+        });
+
+        // open the settings screen
+        settingsButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this,
+                    SettingsActivity.class);
             startActivity(intent);
         });
     }
