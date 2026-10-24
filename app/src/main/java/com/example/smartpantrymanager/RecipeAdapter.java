@@ -55,6 +55,14 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         catch (Exception e) {
             holder.recipeIngredients.setText("Ingredients unavailable");
         }
+
+        // open the selected recipe
+        holder.itemView.setOnClickListener(v -> {
+            android.content.Intent intent = new android.content.Intent(
+                    v.getContext(), RecipeDetailActivity.class);
+            intent.putExtra("recipe_json", recipe.toString());
+            v.getContext().startActivity(intent);
+        });
     }
 
     @Override

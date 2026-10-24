@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="pantry_blue">#2563EB</color>
+    <color name="pantry_green">#10B981</color>
+    <color name="pantry_purple">#8B5CF6</color>
+    <color name="pantry_background">#F8FAFC</color>
 </resources>
