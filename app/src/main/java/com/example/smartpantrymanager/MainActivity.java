@@ -42,6 +42,11 @@ public class MainActivity extends AppCompatActivity {
                     AddPantryItemActivity.class);
             intent.putExtra("pantry_item_id", item.getId());
             startActivity(intent);
+        }, item -> {
+            databaseHelper.deletePantryItem(item.getId());
+            loadPantryItems();
+            Toast.makeText(MainActivity.this,
+                    "Ingredient deleted", Toast.LENGTH_SHORT).show();
         });
 
         pantryRecycler.setLayoutManager(new LinearLayoutManager(this));
@@ -50,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         // load saved ingredients from sqlite
         loadPantryItems();
 
+        // add ingredient to pantry
         addIngredientButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this,
                     AddPantryItemActivity.class);
