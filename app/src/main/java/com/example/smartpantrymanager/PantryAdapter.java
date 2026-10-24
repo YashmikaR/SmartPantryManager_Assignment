@@ -1,4 +1,3 @@
-
 package com.example.smartpantrymanager;
 
 import android.view.LayoutInflater;
