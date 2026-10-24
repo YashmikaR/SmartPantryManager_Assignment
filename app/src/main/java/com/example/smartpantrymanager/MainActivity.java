@@ -12,12 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+import android.content.Intent;
 
+public class MainActivity extends AppCompatActivity {
     private DatabaseHelper databaseHelper;
     private PantryAdapter pantryAdapter;
     private ArrayList<PantryItem> pantryItems;
-
     private RecyclerView pantryRecycler;
     private TextView emptyPantryMessage;
 
@@ -30,38 +30,34 @@ public class MainActivity extends AppCompatActivity {
         emptyPantryMessage = findViewById(R.id.textEmptyPantry);
         Button addIngredientButton = findViewById(R.id.buttonAddIngredient);
 
-        // this creates the database helper and opens the local database
+        // create the database helper and open the local database
         databaseHelper = new DatabaseHelper(this);
         databaseHelper.getWritableDatabase();
 
-        // this prepares the list and its adapter
+        // prepare the list and its adapter
         pantryItems = new ArrayList<>();
 
         pantryAdapter = new PantryAdapter(pantryItems, item -> {
-            Toast.makeText(
-                    MainActivity.this,
-                    "Selected: " + item.getName(),
-                    Toast.LENGTH_SHORT
-            ).show();
+            Intent intent = new Intent(MainActivity.this,
+                    AddPantryItemActivity.class);
+            intent.putExtra("pantry_item_id", item.getId());
+            startActivity(intent);
         });
 
         pantryRecycler.setLayoutManager(new LinearLayoutManager(this));
         pantryRecycler.setAdapter(pantryAdapter);
 
-        // this loads saved ingredients from sqlite
+        // load saved ingredients from sqlite
         loadPantryItems();
 
-        // this temporarily confirms the add screen is our next step
-        addIngredientButton.setOnClickListener(v ->
-                Toast.makeText(
-                        MainActivity.this,
-                        "The add ingredient screen is coming next",
-                        Toast.LENGTH_SHORT
-                ).show()
-        );
+        addIngredientButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this,
+                    AddPantryItemActivity.class);
+            startActivity(intent);
+        });
     }
 
-    // this reads pantry records from the database and refreshes the list
+    // read pantry records from the database and refresh the list
     private void loadPantryItems() {
         ArrayList<PantryItem> savedItems = new ArrayList<>();
 
@@ -77,15 +73,13 @@ public class MainActivity extends AppCompatActivity {
                 String expiry = cursor.getString(
                         cursor.getColumnIndexOrThrow("expiry"));
 
-                savedItems.add(
-                        new PantryItem(id, name, quantity, unit, expiry)
-                );
+                savedItems.add(new PantryItem(id, name, quantity, unit, expiry));
             }
         }
 
         pantryAdapter.updateItems(savedItems);
 
-        // this shows a helpful message when no ingredients are saved
+        // show a helpful message when no ingredients are saved
         if (savedItems.isEmpty()) {
             emptyPantryMessage.setVisibility(TextView.VISIBLE);
             pantryRecycler.setVisibility(RecyclerView.GONE);
@@ -98,8 +92,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        // this refreshes the list when returning to the pantry screen
+        // refresh the list when returning to the pantry screen
         if (databaseHelper != null && pantryAdapter != null) {
             loadPantryItems();
         }
