@@ -46,13 +46,40 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                 if (ingredientNames.length() > 0) {
                     ingredientNames.append(", ");
                 }
-                ingredientNames.append(ingredient.optString("name", "ingredient"));
+
+                ingredientNames.append(
+                        ingredient.optString("name", "ingredient"));
             }
 
-            holder.recipeIngredients.setText(
-                    "Ingredients: " + ingredientNames);
-        }
-        catch (Exception e) {
+            String ingredientText = "Ingredients: " + ingredientNames;
+
+            JSONArray missingIngredients =
+                    recipe.optJSONArray("missing_ingredients");
+
+            if (missingIngredients != null && missingIngredients.length() > 0) {
+                StringBuilder missingText = new StringBuilder();
+
+                for (int i = 0; i < missingIngredients.length(); i++) {
+                    JSONObject missing = missingIngredients.getJSONObject(i);
+
+                    if (missingText.length() > 0) {
+                        missingText.append(", ");
+                    }
+
+                    missingText.append(missing.optString("name", "ingredient"));
+                    missingText.append(" (");
+                    missingText.append(missing.optString("quantity", ""));
+                    missingText.append(" ");
+                    missingText.append(missing.optString("unit", ""));
+                    missingText.append(")");
+                }
+
+                ingredientText += "\nMissing: " + missingText;
+            }
+
+            holder.recipeIngredients.setText(ingredientText);
+
+        } catch (Exception e) {
             holder.recipeIngredients.setText("Ingredients unavailable");
         }
 

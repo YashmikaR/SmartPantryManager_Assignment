@@ -1,42 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#F5F7FA">
-
-    <TextView
+    android:background="@color/pantry_background"
+    android:fillViewport="true">
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Suggested recipes"
-        android:textSize="26sp"
-        android:textStyle="bold"
-        android:textColor="#222222"
-        android:layout_marginBottom="8dp" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Recipes you can make with your available ingredients"
-        android:textSize="14sp"
-        android:textColor="#666666"
-        android:layout_marginBottom="16dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Suggested recipes"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="#222222" />
 
-    <TextView
-        android:id="@+id/textEmptyRecipes"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="No matching recipes found."
-        android:textSize="15sp"
-        android:textColor="#666666"
-        android:gravity="center"
-        android:padding="24dp"
-        android:visibility="gone" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="20dp"
+            android:text="Discover what you can cook with your ingredients"
+            android:textSize="14sp"
+            android:textColor="#666666" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerSuggestedRecipes"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-</LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ready to make"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/pantry_green" />
+
+        <TextView
+            android:id="@+id/textEmptyRecipes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No recipes match your pantry yet. Add more ingredients and try again."
+            android:textSize="14sp"
+            android:textColor="#666666"
+            android:padding="12dp"
+            android:visibility="gone" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerSuggestedRecipes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp"
+            android:text="Almost there!"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/pantry_purple" />
+
+        <TextView
+            android:id="@+id/textEmptyAlmostThere"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No near matches yet. Keep adding ingredients!"
+            android:textSize="14sp"
+            android:textColor="#666666"
+            android:padding="12dp"
+            android:visibility="gone" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerAlmostThere"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false" />
+    </LinearLayout>
+</ScrollView>
